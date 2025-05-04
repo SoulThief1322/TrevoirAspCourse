@@ -1,7 +1,9 @@
+using LeaveManagementSystem.Web.Services;
+using LeaveManagementSystem.Web.Contracts;
 using LeaveManagementSystem.Web.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +11,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddScoped<ILeaveTypesService, LeaveTypesService>();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
